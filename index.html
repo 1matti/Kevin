@@ -17,6 +17,7 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            overflow: hidden;
         }
         h1 {
             font-size: 3rem;
@@ -31,6 +32,18 @@
             margin-top: 20px;
             color: #f4d03f;
         }
+        .photo-layer {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        .visible {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -38,9 +51,14 @@
     <div id="countdown">Lädt...</div>
     <div id="message"></div>
 
+    <!-- Foto-Layer -->
+    <img id="photo1" class="photo-layer" src="https://via.placeholder.com/200" alt="Foto von meinem Freund" style="top: 30%; left: 20%;">
+    <img id="photo2" class="photo-layer" src="https://via.placeholder.com/200" alt="Foto von meinem Freund" style="top: 60%; right: 20%;">
+    <img id="photo3" class="photo-layer" src="https://via.placeholder.com/200" alt="Foto von meinem Freund" style="bottom: 20%; left: 40%;">
+
     <script>
         // Ziel-Datum setzen
-        const targetDate = new Date("2024-12-25T00:00:00").getTime();
+        const targetDate = new Date("2025-01-10T00:00:00").getTime();
 
         // Nachrichten für verschiedene Tage
         const messages = [
@@ -49,6 +67,13 @@
             "Du bist das Beste, was mir je passiert ist.",
             "Bald sehen wir uns wieder, mein Schatz!",
             "Ich liebe dich immer mehr!"
+        ];
+
+        // Fotos werden an bestimmten Tagen eingeblendet
+        const photoSchedule = [
+            { date: "2024-12-15", id: "photo1" }, // Foto 1 wird ab dem 15. Dezember 2024 sichtbar
+            { date: "2024-12-20", id: "photo2" }, // Foto 2 wird ab dem 20. Dezember 2024 sichtbar
+            { date: "2025-01-05", id: "photo3" }  // Foto 3 wird ab dem 5. Januar 2025 sichtbar
         ];
 
         function updateCountdown() {
@@ -76,8 +101,23 @@
             document.getElementById("message").innerHTML = messages[messageIndex];
         }
 
-        // Countdown alle Sekunde aktualisieren
+        // Fotos an bestimmten Tagen einblenden
+        function showPhotos() {
+            const now = new Date();
+            photoSchedule.forEach(photo => {
+                const photoDate = new Date(photo.date);
+                if (now >= photoDate) {
+                    const element = document.getElementById(photo.id);
+                    if (element) {
+                        element.classList.add("visible");
+                    }
+                }
+            });
+        }
+
+        // Countdown und Fotos initialisieren
         setInterval(updateCountdown, 1000);
+        setInterval(showPhotos, 1000); // Fotos jede Sekunde überprüfen
     </script>
 </body>
 </html>
