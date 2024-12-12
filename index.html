@@ -34,8 +34,8 @@
         }
         .photo-layer {
             position: absolute;
-            width: 200px;
-            height: 200px;
+            width: 300px; /* Größere Qualität */
+            height: 300px;
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
             opacity: 0;
@@ -44,33 +44,58 @@
         .visible {
             opacity: 1;
         }
+        /* Bild weiter an die Seite verschieben */
+        #photo1 {
+            top: 30%;
+            left: 70%; /* Bild nach rechts verschieben */
+        }
+        video {
+            position: absolute;
+            bottom: 10%;
+            width: 80%;
+            border: 3px solid white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            display: none; /* Standardmäßig ausgeblendet */
+        }
+        video.visible {
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <h1>Countdown zu unserem Wiedersehen</h1>
+    <h1>Unser letzter Abend in Rom</h1>
     <div id="countdown">Lädt...</div>
     <div id="message"></div>
 
     <!-- Foto-Layer -->
-    <img id="photo1" class="photo-layer" src="https://github.com/1matti/Kevin/blob/main/KEVIN.jpeg?raw=true" alt="Foto von meinem Freund" style="top: 30%; left: 20%;">
+    <img id="photo1" class="photo-layer" src="https://github.com/1matti/Kevin/blob/main/KEVIN.jpeg?raw=true" alt="Foto von meinem Freund">
 
+    <!-- Video einfügen -->
+    <video id="romVideo" controls muted>
+        <source src="https://github.com/1matti/Kevin/blob/main/rom-video.mp4?raw=true" type="video/mp4">
+        Dein Browser unterstützt dieses Video nicht.
+    </video>
 
     <script>
         // Ziel-Datum setzen
-        const targetDate = new Date("2025-01-10T00:00:00").getTime();
+        const targetDate = new Date("2025-01-10T20:00:00").getTime(); // Unser letzter Abend in Rom, 20:00 Uhr
 
         // Nachrichten für verschiedene Tage
         const messages = [
-            "Ich freue mich so sehr auf dich!",
+            "Ich freue mich so sehr aus unseren gemeinsamen Urlaub!", // Erster Text, ab heute (12.12.2024)
             "Nur noch ein paar Tage bis zu unserer Umarmung.",
             "Du bist das Beste, was mir je passiert ist.",
-            "Bald sehen wir uns wieder, mein Schatz!",
-            "Ich liebe dich immer mehr!"
+            "Bald genießen wir Rom zusammen, mein Schatz!",
+            "Unser letzter Abend in Rom wird unvergesslich."
         ];
 
-        // Fotos werden an bestimmten Tagen eingeblendet
+        // Fotos und Videos werden an bestimmten Tagen eingeblendet
         const photoSchedule = [
-            { date: "2024-12-11", id: "photo1" }, // Foto 1 wird ab dem 11. Dezember 2024 sichtbar
+            { date: "2024-12-11", id: "photo1" } // Foto 1 wird ab dem 12. Dezember 2024 sichtbar
+        ];
+        const videoSchedule = [
+            { date: "2024-12-11", id: "romVideo" } // Video wird ab dem 12. Dezember 2024 sichtbar
         ];
 
         function updateCountdown() {
@@ -79,7 +104,7 @@
 
             if (timeLeft <= 0) {
                 document.getElementById("countdown").innerHTML = "Es ist soweit!";
-                document.getElementById("message").innerHTML = "Ich kann es kaum erwarten, dich in die Arme zu schließen!";
+                document.getElementById("message").innerHTML = "Unser letzter Abend in Rom beginnt jetzt. Lass ihn uns genießen!";
                 return;
             }
 
@@ -94,17 +119,17 @@
                 `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
 
             // Nachricht des Tages anzeigen
-            const messageIndex = days < messages.length ? messages.length - days : 0;
+            const messageIndex = Math.min(messages.length - 1, days);
             document.getElementById("message").innerHTML = messages[messageIndex];
         }
 
-        // Fotos an bestimmten Tagen einblenden
-        function showPhotos() {
+        // Fotos und Videos an bestimmten Tagen einblenden
+        function showMedia(schedule) {
             const now = new Date();
-            photoSchedule.forEach(photo => {
-                const photoDate = new Date(photo.date);
-                if (now >= photoDate) {
-                    const element = document.getElementById(photo.id);
+            schedule.forEach(item => {
+                const itemDate = new Date(item.date);
+                if (now >= itemDate) {
+                    const element = document.getElementById(item.id);
                     if (element) {
                         element.classList.add("visible");
                     }
@@ -112,9 +137,12 @@
             });
         }
 
-        // Countdown und Fotos initialisieren
+        // Countdown und Medien initialisieren
         setInterval(updateCountdown, 1000);
-        setInterval(showPhotos, 1000); // Fotos jede Sekunde überprüfen
+        setInterval(() => {
+            showMedia(photoSchedule); // Fotos einblenden
+            showMedia(videoSchedule); // Videos einblenden
+        }, 1000);
     </script>
 </body>
 </html>
