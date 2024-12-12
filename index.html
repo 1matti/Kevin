@@ -6,7 +6,7 @@
     <title>Countdown</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             text-align: center;
             background: linear-gradient(to bottom, #4a90e2, #145374);
             color: white;
@@ -22,44 +22,35 @@
         h1 {
             font-size: 3rem;
             margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
         #countdown {
             font-size: 2rem;
             margin-top: 20px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         #message {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             margin-top: 20px;
             color: #f4d03f;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
         }
         .photo-layer {
             position: absolute;
-            width: 300px; /* Größere Qualität */
-            height: 300px;
+            width: 150px;
+            height: 150px;
             border-radius: 50%;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
+            top: 5%; /* Nach oben */
+            left: 5%; /* Nach links */
         }
-        .visible {
-            opacity: 1;
-        }
-        /* Bild weiter an die Seite verschieben */
-        #photo1 {
-            top: 30%;
-            left: 70%; /* Bild nach rechts verschieben */
-        }
-        video {
-            position: absolute;
-            bottom: 10%;
-            width: 80%;
-            border: 3px solid white;
+        iframe {
+            margin-top: 30px;
+            width: 90%;
+            height: 250px;
+            border: none;
             border-radius: 15px;
             box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-            display: none; /* Standardmäßig ausgeblendet */
-        }
-        video.visible {
-            display: block;
         }
     </style>
 </head>
@@ -71,11 +62,8 @@
     <!-- Foto-Layer -->
     <img id="photo1" class="photo-layer" src="https://github.com/1matti/Kevin/blob/main/KEVIN.jpeg?raw=true" alt="Foto von meinem Freund">
 
-    <!-- Video einfügen -->
-    <video id="romVideo" controls muted>
-        <source src="https://github.com/1matti/Kevin/blob/main/KEVIN_Video.mp4?raw=true" type="video/mp4">
-        Dein Browser unterstützt dieses Video nicht.
-    </video>
+    <!-- YouTube-Video einfügen -->
+    <iframe src="https://www.youtube.com/embed/xDvxh-4HtI4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
     <script>
         // Ziel-Datum setzen
@@ -83,19 +71,11 @@
 
         // Nachrichten für verschiedene Tage
         const messages = [
-            "Ich freue mich so sehr aus unseren gemeinsamen Urlaub!", // Erster Text, ab heute (12.12.2024)
+            "Ich freue mich so sehr auf unseren gemeinsamen Urlaub!", // Erster Text, ab heute (12.12.2024)
             "Nur noch ein paar Tage bis zu unserer Umarmung.",
             "Du bist das Beste, was mir je passiert ist.",
             "Bald genießen wir Rom zusammen, mein Schatz!",
             "Unser letzter Abend in Rom wird unvergesslich."
-        ];
-
-        // Fotos und Videos werden an bestimmten Tagen eingeblendet
-        const photoSchedule = [
-            { date: "2024-12-11", id: "photo1" } // Foto 1 wird ab dem 12. Dezember 2024 sichtbar
-        ];
-        const videoSchedule = [
-            { date: "2024-12-11", id: "romVideo" } // Video wird ab dem 12. Dezember 2024 sichtbar
         ];
 
         function updateCountdown() {
@@ -123,26 +103,8 @@
             document.getElementById("message").innerHTML = messages[messageIndex];
         }
 
-        // Fotos und Videos an bestimmten Tagen einblenden
-        function showMedia(schedule) {
-            const now = new Date();
-            schedule.forEach(item => {
-                const itemDate = new Date(item.date);
-                if (now >= itemDate) {
-                    const element = document.getElementById(item.id);
-                    if (element) {
-                        element.classList.add("visible");
-                    }
-                }
-            });
-        }
-
-        // Countdown und Medien initialisieren
+        // Countdown initialisieren
         setInterval(updateCountdown, 1000);
-        setInterval(() => {
-            showMedia(photoSchedule); // Fotos einblenden
-            showMedia(videoSchedule); // Videos einblenden
-        }, 1000);
     </script>
 </body>
 </html>
