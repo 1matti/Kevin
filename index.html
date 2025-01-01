@@ -57,7 +57,10 @@
 <body>
     <h1>Unser letzter Abend in Rom</h1>
     <div id="countdown">Lädt...</div>
-    <div id="message"></div>
+    <div id="message">
+        Vor weiten Reisen sollte man andere Kulturen kennenlernen. <br>
+        Triff mich am 02.01. um 20:00 Uhr an der Jannowitzbrücke. 
+    </div>
 
     <!-- Foto-Layer -->
     <img id="photo1" class="photo-layer" src="https://github.com/1matti/Kevin/blob/main/KEVIN.jpeg?raw=true" alt="Foto von meinem Freund">
@@ -67,16 +70,7 @@
 
     <script>
         // Ziel-Datum setzen
-        const targetDate = new Date("2025-01-10T20:00:00").getTime(); // Unser letzter Abend in Rom, 20:00 Uhr
-
-        // Nachrichten für verschiedene Tage
-        const messages = [
-            "Ich freue mich so sehr auf unseren gemeinsamen Urlaub!", // Erster Text, ab heute (12.12.2024)
-            "Nur noch ein paar Tage bis zu unserer Umarmung.",
-            "Du bist das Beste, was mir je passiert ist.",
-            "Bald genießen wir Rom zusammen, mein Schatz!",
-            "Unser letzter Abend in Rom wird unvergesslich."
-        ];
+        const targetDate = new Date("2025-01-10T20:00:00").getTime();
 
         function updateCountdown() {
             const now = new Date().getTime();
@@ -84,7 +78,6 @@
 
             if (timeLeft <= 0) {
                 document.getElementById("countdown").innerHTML = "Es ist soweit!";
-                document.getElementById("message").innerHTML = "Unser letzter Abend in Rom beginnt jetzt. Lass ihn uns genießen!";
                 return;
             }
 
@@ -97,10 +90,6 @@
             // Countdown aktualisieren
             document.getElementById("countdown").innerHTML = 
                 `${days} Tage, ${hours} Stunden, ${minutes} Minuten, ${seconds} Sekunden`;
-
-            // Nachricht des Tages anzeigen
-            const messageIndex = Math.min(messages.length - 1, days);
-            document.getElementById("message").innerHTML = messages[messageIndex];
         }
 
         // Countdown initialisieren
